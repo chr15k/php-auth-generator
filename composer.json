@@ -1,0 +1,70 @@
+{
+    "name": "chr15k/http-auth-generator",
+    "description": "Generate HTTP API authentication tokens",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Chris Keller",
+            "email": "ctk8501@gmail.com"
+        }
+    ],
+    "keywords": [
+        "http",
+        "cli",
+        "php",
+        "generator",
+        "auth",
+        "jwt",
+        "api"
+    ],
+    "require": {
+        "php": "^8.2"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.20.0",
+        "pestphp/pest": "^2.36|^3.7.4",
+        "pestphp/pest-plugin-type-coverage": "^2.8.7|^3.2.3",
+        "phpstan/phpstan": "^1.12.16",
+        "rector/rector": "^1.2.10",
+        "symfony/var-dumper": "^7.2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Chr15k\\Codec\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
+        }
+    },
+    "scripts": {
+        "refactor": "rector",
+        "lint": "pint",
+        "tidy": [
+            "@lint",
+            "@refactor",
+            "@lint"
+        ],
+        "test:refactor": "rector --dry-run",
+        "test:lint": "pint --test",
+        "test:types": "phpstan analyse --ansi",
+        "test:unit": "pest --colors=always --coverage --exactly=100.0",
+        "test": [
+            "@test:refactor",
+            "@test:lint",
+            "@test:types",
+            "@test:unit"
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
