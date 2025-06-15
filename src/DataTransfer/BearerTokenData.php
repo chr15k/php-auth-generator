@@ -7,7 +7,7 @@ namespace Chr15k\AuthGenerator\DataTransfer;
 /**
  * @internal
  */
-final class BearerTokenData
+final readonly class BearerTokenData
 {
     public function __construct(
         public int $length = 32,

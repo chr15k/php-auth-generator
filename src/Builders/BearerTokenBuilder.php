@@ -9,31 +9,25 @@ use Chr15k\AuthGenerator\Contracts\Generator;
 use Chr15k\AuthGenerator\DataTransfer\BearerTokenData;
 use Chr15k\AuthGenerator\Generators\BearerToken as BearerTokenGenerator;
 
-final readonly class BearerTokenBuilder implements Builder
+final class BearerTokenBuilder implements Builder
 {
-    private BearerTokenData $data;
-
-    public function __construct()
-    {
-        $this->data = new BearerTokenData;
+    public function __construct(
+        private int $length = 32,
+        private string $prefix = 'brr_'
+    ) {
+        //
     }
 
-    /**
-     * Set the token length.
-     */
     public function length(int $length): self
     {
-        $this->data->length = $length;
+        $this->length = $length;
 
         return $this;
     }
 
-    /**
-     * Set the token prefix.
-     */
     public function prefix(string $prefix): self
     {
-        $this->data->prefix = $prefix;
+        $this->prefix = $prefix;
 
         return $this;
     }
@@ -43,7 +37,12 @@ final readonly class BearerTokenBuilder implements Builder
      */
     public function build(): Generator
     {
-        return new BearerTokenGenerator($this->data);
+        $data = new BearerTokenData(
+            length: $this->length,
+            prefix: $this->prefix
+        );
+
+        return new BearerTokenGenerator($data);
     }
 
     /**

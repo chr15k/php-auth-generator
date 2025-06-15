@@ -9,6 +9,7 @@ use Chr15k\AuthGenerator\Contracts\Generator;
 use Chr15k\AuthGenerator\DataTransfer\JWTData;
 use Chr15k\AuthGenerator\Enums\Algorithm;
 use Chr15k\AuthGenerator\Generators\JWT as JWTGenerator;
+use SensitiveParameter;
 
 final class JWTBuilder implements Builder
 {
@@ -44,7 +45,7 @@ final class JWTBuilder implements Builder
     /**
      * Set the signing key for the JWT.
      */
-    public function key(string $key, bool $isBase64Encoded = false): self
+    public function key(#[SensitiveParameter] string $key, bool $isBase64Encoded = false): self
     {
         $this->key = $key;
         $this->keyBase64Encoded = $isBase64Encoded;

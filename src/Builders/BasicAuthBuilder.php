@@ -8,14 +8,15 @@ use Chr15k\AuthGenerator\Contracts\Builder;
 use Chr15k\AuthGenerator\Contracts\Generator;
 use Chr15k\AuthGenerator\DataTransfer\BasicAuthData;
 use Chr15k\AuthGenerator\Generators\BasicAuth as BasicAuthGenerator;
+use SensitiveParameter;
 
-final readonly class BasicAuthBuilder implements Builder
+final class BasicAuthBuilder implements Builder
 {
-    private BasicAuthData $data;
-
-    public function __construct()
-    {
-        $this->data = new BasicAuthData;
+    public function __construct(
+        private string $username = '',
+        private string $password = ''
+    ) {
+        //
     }
 
     /**
@@ -23,7 +24,7 @@ final readonly class BasicAuthBuilder implements Builder
      */
     public function username(string $username): self
     {
-        $this->data->username = $username;
+        $this->username = $username;
 
         return $this;
     }
@@ -31,9 +32,9 @@ final readonly class BasicAuthBuilder implements Builder
     /**
      * Set the password for Basic Auth.
      */
-    public function password(string $password): self
+    public function password(#[SensitiveParameter] string $password): self
     {
-        $this->data->password = $password;
+        $this->password = $password;
 
         return $this;
     }
@@ -43,7 +44,12 @@ final readonly class BasicAuthBuilder implements Builder
      */
     public function build(): Generator
     {
-        return new BasicAuthGenerator($this->data);
+        $data = new BasicAuthData(
+            username: $this->username,
+            password: $this->password
+        );
+
+        return new BasicAuthGenerator($data);
     }
 
     /**
