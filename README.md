@@ -14,6 +14,11 @@ A PHP library that focuses exclusively on **generating** HTTP authentication tok
 
 > [!NOTE]
 > Requires [PHP 8.2+](https://www.php.net/releases/)
+>
+> JWT algorithms:
+> - `HS256`, `HS384`, `HS512`: No additional requirements
+> - `RS256`, `RS384`, `RS512`, `ES256`, `ES384`: Requires the [openssl](https://www.php.net/manual/en/book.openssl.php) extension
+> - `EdDSA`: Requires the [sodium](https://www.php.net/manual/en/book.sodium.php) (libsodium) extension
 
 ```bash
 composer require chr15k/php-auth-generator
