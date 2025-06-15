@@ -1,5 +1,7 @@
 # PHP Auth Generator
 
+[![Latest Stable Version](https://poser.pugx.org/chr15k/php-auth-generator/v)](https://packagist.org/packages/chr15k/php-auth-generator) [![Total Downloads](https://poser.pugx.org/chr15k/php-auth-generator/downloads)](https://packagist.org/packages/chr15k/php-auth-generator) [![Latest Unstable Version](https://poser.pugx.org/chr15k/php-auth-generator/v/unstable)](https://packagist.org/packages/chr15k/php-auth-generator) [![License](https://poser.pugx.org/chr15k/php-auth-generator/license)](https://packagist.org/packages/chr15k/php-auth-generator) [![PHP Version Require](https://poser.pugx.org/chr15k/php-auth-generator/require/php)](https://packagist.org/packages/chr15k/php-auth-generator)
+
 A PHP library that focuses exclusively on **generating** HTTP authentication tokens, including Basic Auth, Bearer tokens, and JWTs with a fluent API. Built with zero dependencies, it's lightweight and adds token creation capabilities without bloating your project.
 
 > [!IMPORTANT]
