@@ -10,6 +10,9 @@ A PHP library that focuses exclusively on **generating** HTTP authentication tok
 
 ## Installation
 
+> [!NOTE]
+> Requires [PHP 8.2+](https://www.php.net/releases/)
+
 ```bash
 composer require chr15k/php-auth-generator
 ```

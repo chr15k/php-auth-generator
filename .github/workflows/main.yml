@@ -1,36 +1,45 @@
-name: PHP Composer
+name: Main
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-permissions:
-  contents: read
+on: ['push', 'pull_request']
 
 jobs:
-  build:
+  ci:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        php: ['8.2', '8.3', '8.4']
+        dependency-version: [prefer-lowest, prefer-stable]
 
-    runs-on: ubuntu-latest
+    name: Tests P${{ matrix.php }} - ${{ matrix.os }} - ${{ matrix.dependency-version }}
 
     steps:
-    - uses: actions/checkout@v4
 
-    - name: Validate composer.json and composer.lock
-      run: composer validate --strict
+    - name: Checkout
+      uses: actions/checkout@v3
 
-    - name: Cache Composer packages
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        coverage: xdebug
+
+    - name: Get Composer cache directory
       id: composer-cache
+      shell: bash
+      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+    - name: Cache dependencies
       uses: actions/cache@v3
       with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: dependencies-php-${{ matrix.php }}-os-${{ matrix.os }}-${{ matrix.dependency-version }}-symfony-${{ matrix.symfony }}-composer-${{ hashFiles('composer.json') }}
+        restore-keys: dependencies-php-${{ matrix.php }}-os-${{ matrix.os }}-${{ matrix.dependency-version }}-symfony-${{ matrix.symfony }}-composer-
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
+    - name: Install Composer dependencies
+      run: |
+        composer update --${{ matrix.dependency-version }} --no-interaction --prefer-dist
 
-    - name: Run test suite
+    - name: Full Test Suite
       run: composer test
