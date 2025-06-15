@@ -63,6 +63,8 @@ $token = AuthGenerator::jwt()
 // Output: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMjMsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY...
 ```
 
+[Guide](https://github.com/chr15k/php-auth-generator/blob/main/docs/API_CHEATSHEET.md#jwt-json-web-token) - all methods & supported algoritms
+
 ## Headers and Formatting
 
 The library provides fluent methods to format tokens for use in HTTP headers:
