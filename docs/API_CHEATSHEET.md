@@ -3,7 +3,7 @@
 ## Basic Authentication
 
 ```php
-use Chr15k\Codec\AuthGenerator;
+use Chr15k\AuthGenerator\AuthGenerator;
 
 // Generate token
 $token = AuthGenerator::basicAuth()
@@ -22,7 +22,7 @@ $header = AuthGenerator::basicAuth()
 ## Bearer Token
 
 ```php
-use Chr15k\Codec\AuthGenerator;
+use Chr15k\AuthGenerator\AuthGenerator;
 
 // Generate token with default settings (32 bytes, 'brr_' prefix)
 $token = AuthGenerator::bearerToken()->toString();
@@ -44,8 +44,8 @@ $header = AuthGenerator::bearerToken()
 ## JWT (JSON Web Token)
 
 ```php
-use Chr15k\Codec\AuthGenerator;
-use Chr15k\Codec\Enums\Algorithm;
+use Chr15k\AuthGenerator\AuthGenerator;
+use Chr15k\AuthGenerator\Enums\Algorithm;
 
 // Generate token with default settings (HS256 algorithm)
 $token = AuthGenerator::jwt()
@@ -85,7 +85,7 @@ $header = AuthGenerator::jwt()
 ## HTTP Headers Formatting
 
 ```php
-use Chr15k\Codec\AuthGenerator;
+use Chr15k\AuthGenerator\AuthGenerator;
 
 // Generate token and headers in one go
 $headers = AuthGenerator::basicAuth()

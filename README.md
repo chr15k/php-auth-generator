@@ -1,12 +1,12 @@
 # HTTP Auth Generator
 
-A PHP library for generating HTTP authentication tokens, including Basic Auth, Bearer tokens, and JWTs with a fluent API. Built with zero dependencies, it's lightweight and provides authentication functionality without bloating your project.
+A PHP library that focuses exclusively on **generating** HTTP authentication tokens, including Basic Auth, Bearer tokens, and JWTs with a fluent API. This library does not provide token decoding or verification functionality - it's a generator only. Built with zero dependencies, it's lightweight and adds token creation capabilities without bloating your project.
 
-> [!NOTE]
-> This library is designed specifically as a token generator and does not include token decoding/verification functionality.
+> [!IMPORTANT]
+> This package is designed solely for **generating** authentication tokens. It does not include any token decoding, validation, or verification functionality.
 
 > [!TIP]
-> If full JWT encoding/decoding is required, I'd recommend using a dedicated library such as [firebase/php-jwt](https://github.com/firebase/php-jwt)
+> For complete JWT encoding/decoding solutions, consider using a dedicated library such as [firebase/php-jwt](https://github.com/firebase/php-jwt)
 
 ## Installation
 
@@ -19,7 +19,7 @@ composer require chr15k/http-auth-generator
 ### Basic Auth
 
 ```php
-use Chr15k\Codec\AuthGenerator;
+use Chr15k\AuthGenerator\AuthGenerator;
 
 // Generate a Basic Auth token
 $token = AuthGenerator::basicAuth()
@@ -33,7 +33,7 @@ $token = AuthGenerator::basicAuth()
 ### Bearer Token
 
 ```php
-use Chr15k\Codec\AuthGenerator;
+use Chr15k\AuthGenerator\AuthGenerator;
 
 // Generate a Bearer token with custom length and prefix
 $token = AuthGenerator::bearerToken()
@@ -47,8 +47,8 @@ $token = AuthGenerator::bearerToken()
 ### JWT
 
 ```php
-use Chr15k\Codec\AuthGenerator;
-use Chr15k\Codec\Enums\Algorithm;
+use Chr15k\AuthGenerator\AuthGenerator;
+use Chr15k\AuthGenerator\Enums\Algorithm;
 
 // Generate a JWT with claims and custom algorithm
 $token = AuthGenerator::jwt()
@@ -68,7 +68,7 @@ $token = AuthGenerator::jwt()
 The library provides fluent methods to format tokens for use in HTTP headers:
 
 ```php
-use Chr15k\Codec\AuthGenerator;
+use Chr15k\AuthGenerator\AuthGenerator;
 
 // Generate a Basic Auth token and get headers in one go
 $headers = AuthGenerator::basicAuth()
@@ -123,7 +123,7 @@ You can easily integrate with popular HTTP clients:
 ### Guzzle
 
 ```php
-use Chr15k\Codec\AuthGenerator;
+use Chr15k\AuthGenerator\AuthGenerator;
 use GuzzleHttp\Client;
 
 // Create Guzzle client with authentication headers

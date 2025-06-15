@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Chr15k\Codec\Builders;
+namespace Chr15k\AuthGenerator\Builders;
 
-use Chr15k\Codec\Contracts\Builder;
-use Chr15k\Codec\Contracts\Generator;
-use Chr15k\Codec\DataTransfer\JWTData;
-use Chr15k\Codec\Enums\Algorithm;
-use Chr15k\Codec\Generators\JWT as JWTGenerator;
+use Chr15k\AuthGenerator\Contracts\Builder;
+use Chr15k\AuthGenerator\Contracts\Generator;
+use Chr15k\AuthGenerator\DataTransfer\JWTData;
+use Chr15k\AuthGenerator\Enums\Algorithm;
+use Chr15k\AuthGenerator\Generators\JWT as JWTGenerator;
 
 final class JWTBuilder implements Builder
 {

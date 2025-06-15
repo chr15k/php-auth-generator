@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Chr15k\Codec\DataTransfer\BasicAuthData;
-use Chr15k\Codec\Generators\BasicAuth;
+use Chr15k\AuthGenerator\DataTransfer\BasicAuthData;
+use Chr15k\AuthGenerator\Generators\BasicAuth;
 
 it('generates encoded basic auth token', function (): void {
     $data = new BasicAuthData(

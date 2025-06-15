@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Chr15k\Codec\DataTransfer;
+namespace Chr15k\AuthGenerator\DataTransfer;
 
-use Chr15k\Codec\Enums\Algorithm;
+use Chr15k\AuthGenerator\Enums\Algorithm;
 
 /**
  * @internal

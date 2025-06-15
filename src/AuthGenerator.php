@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Chr15k\Codec;
+namespace Chr15k\AuthGenerator;
 
-use Chr15k\Codec\Builders\BasicAuthBuilder;
-use Chr15k\Codec\Builders\BearerTokenBuilder;
-use Chr15k\Codec\Builders\JWTBuilder;
+use Chr15k\AuthGenerator\Builders\BasicAuthBuilder;
+use Chr15k\AuthGenerator\Builders\BearerTokenBuilder;
+use Chr15k\AuthGenerator\Builders\JWTBuilder;
 
 /**
  * Factory class for creating authentication token builders.
@@ -36,6 +36,4 @@ final class AuthGenerator
     {
         return new JWTBuilder;
     }
-
-    // Static formatting methods removed in favor of the fluent formatted() method on builders
 }

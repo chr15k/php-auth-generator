@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Chr15k\Codec\Enums\Algorithm;
+use Chr15k\AuthGenerator\Enums\Algorithm;
 
 it('returns correct hash functions for all algorithms', function (): void {
     // HMAC algorithms

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Builders;
 
-use Chr15k\Codec\Builders\BasicAuthBuilder;
-use Chr15k\Codec\Generators\BasicAuth;
+use Chr15k\AuthGenerator\Builders\BasicAuthBuilder;
+use Chr15k\AuthGenerator\Generators\BasicAuth;
 use DomainException;
 
 test('basic auth builder creates data with correct username and password', function (): void {

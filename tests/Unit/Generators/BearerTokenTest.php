@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Chr15k\Codec\DataTransfer\BearerTokenData;
-use Chr15k\Codec\Generators\BearerToken;
+use Chr15k\AuthGenerator\DataTransfer\BearerTokenData;
+use Chr15k\AuthGenerator\Generators\BearerToken;
 
 it('generates a bearer token', function (): void {
     $data = new BearerTokenData;

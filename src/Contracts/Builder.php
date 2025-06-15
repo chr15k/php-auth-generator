@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Chr15k\Codec\Contracts;
+namespace Chr15k\AuthGenerator\Contracts;
 
 interface Builder
 {

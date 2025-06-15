@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Helpers;
 
-use Chr15k\Codec\Helpers\AuthHeaderFormatter;
+use Chr15k\AuthGenerator\Helpers\AuthHeaderFormatter;
 
 test('formats basic auth correctly', function (): void {
     $token = 'dXNlcjpwYXNz'; // base64 of "user:pass"

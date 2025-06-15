@@ -31,7 +31,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Chr15k\\Codec\\": "src/"
+            "Chr15k\\AuthGenerator\\": "src/"
         }
     },
     "autoload-dev": {

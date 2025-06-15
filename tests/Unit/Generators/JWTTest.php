@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Chr15k\Codec\DataTransfer\JWTData;
-use Chr15k\Codec\Enums\Algorithm;
-use Chr15k\Codec\Generators\JWT;
+use Chr15k\AuthGenerator\DataTransfer\JWTData;
+use Chr15k\AuthGenerator\Enums\Algorithm;
+use Chr15k\AuthGenerator\Generators\JWT;
 use DomainException;
 use InvalidArgumentException;
 

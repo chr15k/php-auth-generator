@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Chr15k\Codec\Builders;
+namespace Chr15k\AuthGenerator\Builders;
 
-use Chr15k\Codec\Contracts\Builder;
-use Chr15k\Codec\Contracts\Generator;
-use Chr15k\Codec\DataTransfer\BearerTokenData;
-use Chr15k\Codec\Generators\BearerToken as BearerTokenGenerator;
+use Chr15k\AuthGenerator\Contracts\Builder;
+use Chr15k\AuthGenerator\Contracts\Generator;
+use Chr15k\AuthGenerator\DataTransfer\BearerTokenData;
+use Chr15k\AuthGenerator\Generators\BearerToken as BearerTokenGenerator;
 
 final readonly class BearerTokenBuilder implements Builder
 {

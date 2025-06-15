@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Builders;
 
-use Chr15k\Codec\Builders\BearerTokenBuilder;
-use Chr15k\Codec\Generators\BearerToken;
+use Chr15k\AuthGenerator\Builders\BearerTokenBuilder;
+use Chr15k\AuthGenerator\Generators\BearerToken;
 use DomainException;
 
 test('bearer token builder creates data with correct length and prefix', function (): void {

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Builders;
 
-use Chr15k\Codec\Builders\JWTBuilder;
-use Chr15k\Codec\Enums\Algorithm;
-use Chr15k\Codec\Generators\JWT;
+use Chr15k\AuthGenerator\Builders\JWTBuilder;
+use Chr15k\AuthGenerator\Enums\Algorithm;
+use Chr15k\AuthGenerator\Generators\JWT;
 
 test('jwt builder creates data with correct key and algorithm', function (): void {
     $builder = new JWTBuilder;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use Chr15k\Codec\AuthGenerator;
+use Chr15k\AuthGenerator\AuthGenerator;
 
 test('basic auth builder can generate correct token', function (): void {
     $token = AuthGenerator::basicAuth()

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Chr15k\Codec\Generators;
+namespace Chr15k\AuthGenerator\Generators;
 
-use Chr15k\Codec\Contracts\Generator;
-use Chr15k\Codec\DataTransfer\BearerTokenData;
+use Chr15k\AuthGenerator\Contracts\Generator;
+use Chr15k\AuthGenerator\DataTransfer\BearerTokenData;
 use DomainException;
 
 /**

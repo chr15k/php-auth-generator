@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Chr15k\Codec\Enums;
+namespace Chr15k\AuthGenerator\Enums;
 
 enum Algorithm: string
 {

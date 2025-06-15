@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use Chr15k\Codec\AuthGenerator;
+use Chr15k\AuthGenerator\AuthGenerator;
 
 test('basic auth builder toHeader returns correct header string', function (): void {
     $formatted = AuthGenerator::basicAuth()

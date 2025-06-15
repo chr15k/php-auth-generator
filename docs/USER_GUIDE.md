@@ -25,7 +25,7 @@ Basic Authentication (Basic Auth) is a simple authentication scheme built into t
 ### Generating a Basic Auth Token
 
 ```php
-use Chr15k\Codec\AuthGenerator;
+use Chr15k\AuthGenerator\AuthGenerator;
 
 // Generate a Basic Auth token
 $token = AuthGenerator::basicAuth()
@@ -72,7 +72,7 @@ Bearer tokens are commonly used for API authentication. The token is a cryptogra
 ### Generating a Bearer Token
 
 ```php
-use Chr15k\Codec\AuthGenerator;
+use Chr15k\AuthGenerator\AuthGenerator;
 
 // Generate a Bearer token with default settings
 $token = AuthGenerator::bearerToken()->toString();
@@ -104,8 +104,8 @@ JWT is an open standard that defines a compact and self-contained way for secure
 ### Generating a JWT
 
 ```php
-use Chr15k\Codec\AuthGenerator;
-use Chr15k\Codec\Enums\Algorithm;
+use Chr15k\AuthGenerator\AuthGenerator;
+use Chr15k\AuthGenerator\Enums\Algorithm;
 
 // Generate a simple JWT
 $token = AuthGenerator::jwt()
@@ -132,7 +132,7 @@ $token = AuthGenerator::jwt()
 ### Advanced JWT Features
 
 ```php
-use Chr15k\Codec\AuthGenerator;
+use Chr15k\AuthGenerator\AuthGenerator;
 
 $token = AuthGenerator::jwt()
     ->key('secret-key')
@@ -151,7 +151,7 @@ $token = AuthGenerator::jwt()
 The library supports various algorithms for JWT signing:
 
 ```php
-use Chr15k\Codec\Enums\Algorithm;
+use Chr15k\AuthGenerator\Enums\Algorithm;
 
 // HMAC algorithms
 $token = AuthGenerator::jwt()->algorithm(Algorithm::HS256)->toString(); // HMAC with SHA-256
@@ -177,7 +177,7 @@ $token = AuthGenerator::jwt()->algorithm(Algorithm::EdDSA)->toString(); // EdDSA
 The library provides helper methods to format tokens for use in HTTP headers.
 
 ```php
-use Chr15k\Codec\AuthGenerator;
+use Chr15k\AuthGenerator\AuthGenerator;
 
 // Format a token directly to a proper authorization header using the fluent API
 $header = AuthGenerator::bearerToken()
@@ -203,7 +203,7 @@ The library can be integrated with various HTTP clients.
 ### Guzzle
 
 ```php
-use Chr15k\Codec\AuthGenerator;
+use Chr15k\AuthGenerator\AuthGenerator;
 use GuzzleHttp\Client;
 
 // Create Guzzle client with authentication headers
@@ -224,7 +224,7 @@ $response = $client->get('/resources');
 ### Symfony HTTP Client
 
 ```php
-use Chr15k\Codec\AuthGenerator;
+use Chr15k\AuthGenerator\AuthGenerator;
 use Symfony\Component\HttpClient\HttpClient;
 
 // Create Symfony HTTP client with authentication headers
@@ -243,7 +243,7 @@ $response = $client->request('GET', 'https://api.example.com/resources');
 ### Laravel HTTP Client
 
 ```php
-use Chr15k\Codec\AuthGenerator;
+use Chr15k\AuthGenerator\AuthGenerator;
 use Illuminate\Support\Facades\Http;
 
 // Make request with Laravel HTTP client
@@ -262,7 +262,7 @@ $response = Http::withHeaders(
 If you need more control, you can access the underlying generator instance.
 
 ```php
-use Chr15k\Codec\AuthGenerator;
+use Chr15k\AuthGenerator\AuthGenerator;
 
 // Get the generator instance
 $generator = AuthGenerator::basicAuth()
