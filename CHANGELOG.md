@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [v0.1.1] - 2025-06-14
+
+### Added
+- Added #[SensitiveParameter] attribute to enhance security for password and secret parameters
+
+### Changed
+- Enhanced type safety by making DTOs readonly
+- Updated documentation in README for clearer usage instructions
+- Added libsodium suggestion in composer.json for improved cryptographic operations (required for EdDSA support)
+
 ## [v0.1.0] - 2025-06-13
 
 ### Added
