@@ -1,4 +1,4 @@
-# HTTP Auth Generator
+# PHP Auth Generator
 
 A PHP library that focuses exclusively on **generating** HTTP authentication tokens, including Basic Auth, Bearer tokens, and JWTs with a fluent API. This library does not provide token decoding or verification functionality - it's a generator only. Built with zero dependencies, it's lightweight and adds token creation capabilities without bloating your project.
 
