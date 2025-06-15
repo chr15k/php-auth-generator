@@ -11,7 +11,7 @@ A PHP library that focuses exclusively on **generating** HTTP authentication tok
 ## Installation
 
 ```bash
-composer require chr15k/http-auth-generator
+composer require chr15k/php-auth-generator
 ```
 
 ## Usage

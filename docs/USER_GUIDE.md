@@ -15,7 +15,7 @@ This guide provides a comprehensive overview of how to use the HTTP Auth Generat
 ## Installation
 
 ```bash
-composer require chr15k/http-auth-generator
+composer require chr15k/php-auth-generator
 ```
 
 ## Basic Auth

@@ -1,5 +1,5 @@
 {
-    "name": "chr15k/http-auth-generator",
+    "name": "chr15k/php-auth-generator",
     "description": "Generate HTTP API authentication tokens",
     "type": "library",
     "license": "MIT",
