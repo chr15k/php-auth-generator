@@ -41,6 +41,43 @@ $header = AuthGenerator::bearerToken()
 // Output: "Bearer api_8f7d49b3..."
 ```
 
+## Digest Authentication
+
+```php
+use Chr15k\AuthGenerator\AuthGenerator;
+use Chr15k\AuthGenerator\Enums\DigestAlgorithm;
+
+// Generate token with default settings
+$token = AuthGenerator::digestAuth()
+    ->username('user')
+    ->password('pass')
+    ->realm('example.com')
+    ->toString();
+
+// Generate token with more options
+$token = AuthGenerator::digestAuth()
+    ->username('user')
+    ->password('pass')
+    ->realm('example.com')
+    ->uri('/api/resource')          // Request URI
+    ->method('GET')                 // HTTP method
+    ->algorithm(DigestAlgorithm::MD5) // MD5, MD5_SESS, SHA256, SHA256_SESS
+    ->nonce('server-nonce')         // Server nonce
+    ->clientNonce('client-nonce')   // Client nonce (for session variants)
+    ->nonceCount('00000001')        // Nonce count
+    ->qop('auth')                   // Quality of protection
+    ->opaque('opaque-value')        // Opaque value
+    ->toString();
+
+// Format for HTTP header
+$header = AuthGenerator::digestAuth()
+    ->username('user')
+    ->password('pass')
+    ->realm('example.com')
+    ->toHeader();
+// Output: "Digest username="user", realm="example.com", ..."
+```
+
 ## JWT (JSON Web Token)
 
 ```php

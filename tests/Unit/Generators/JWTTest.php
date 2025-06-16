@@ -5,8 +5,6 @@ declare(strict_types=1);
 use Chr15k\AuthGenerator\DataTransfer\JWTData;
 use Chr15k\AuthGenerator\Enums\Algorithm;
 use Chr15k\AuthGenerator\Generators\JWT;
-use DomainException;
-use InvalidArgumentException;
 
 it('generates a valid JWT token using symmetric algorithm', function (): void {
 

@@ -53,3 +53,17 @@ test('jwt builder can add multiple claims at once', function (): void {
     expect($token)->toBeString();
     expect(count(explode('.', $token)))->toBe(3);
 });
+
+test('digest auth builder can generate correct header', function (): void {
+    $token = AuthGenerator::digestAuth()
+        ->username('testuser')
+        ->password('testpass')
+        ->realm('example.com')
+        ->uri('/api/resource')
+        ->toString();
+
+    expect($token)->toBeString();
+    expect($token)->toContain('username="testuser"');
+    expect($token)->toContain('realm="example.com"');
+    expect($token)->toContain('uri="/api/resource"');
+});

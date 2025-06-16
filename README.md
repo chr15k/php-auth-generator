@@ -49,6 +49,25 @@ $token = AuthGenerator::bearerToken()
 // Output: api_8f7d49b3c70e4...
 ```
 
+### Digest Auth
+
+```php
+use Chr15k\AuthGenerator\AuthGenerator;
+use Chr15k\AuthGenerator\Enums\DigestAlgorithm;
+
+// Generate a Digest Auth token
+$token = AuthGenerator::digestAuth()
+    ->username('user')
+    ->password('pass')
+    ->realm('example.com')
+    ->uri('/protected-resource')
+    ->method('GET')
+    ->algorithm(DigestAlgorithm::MD5)
+    ->toString();
+
+// Output: username="user", realm="example.com", nonce="1234abcd...", uri="/protected-resource", algorithm="MD5" response="a2fc57d9..."
+```
+
 ### JWT
 
 ```php

@@ -1,0 +1,176 @@
+<?php
+
+declare(strict_types=1);
+
+use Chr15k\AuthGenerator\DataTransfer\DigestAuthData;
+use Chr15k\AuthGenerator\Enums\DigestAlgorithm;
+use Chr15k\AuthGenerator\Generators\DigestAuth;
+
+/*
+|--------------------------------------------------------------------------
+| Exception tests
+|--------------------------------------------------------------------------
+*/
+
+it('throws an exception for empty username', function (): void {
+
+    $data = new DigestAuthData(
+        username: '',
+        password: 'pass',
+        realm: 'example.com'
+    );
+
+    (new DigestAuth($data))->generate();
+})->throws(DomainException::class, 'Both username and realm must be provided.');
+
+it('throws an exception for empty realm', function (): void {
+
+    $data = new DigestAuthData(
+        username: 'user',
+        password: 'pass',
+        realm: ''
+    );
+
+    (new DigestAuth($data))->generate();
+
+})->throws(DomainException::class, 'Both username and realm must be provided.');
+
+/*
+|--------------------------------------------------------------------------
+| minimal data tests
+|--------------------------------------------------------------------------
+*/
+
+it('generates an MD5 digest auth string with minimal data', function (): void {
+
+    $data = new DigestAuthData(
+        username: 'user',
+        password: 'pass',
+        realm: 'example.com',
+        algorithm: DigestAlgorithm::MD5,
+    );
+
+    $header = (new DigestAuth($data))->generate();
+
+    expect($header)
+        ->toBe('username="user", realm="example.com", nonce="", uri="/", algorithm="MD5", response="e563373ebcdfa0ce2f0d650107a7bdab"');
+});
+
+it('generates an MD5-sess digest auth string with minimal data', function (): void {
+
+    $data = new DigestAuthData(
+        username: 'user',
+        password: 'pass',
+        realm: 'example.com',
+        algorithm: DigestAlgorithm::MD5_SESS,
+    );
+
+    $header = (new DigestAuth($data))->generate();
+
+    expect($header)
+        ->toBe('username="user", realm="example.com", nonce="", uri="/", algorithm="MD5-sess", cnonce="", response="5ba8bef571094fb5d63dab54d5dc212a"');
+});
+
+it('generates a SHA-256 digest auth string with minimal data', function (): void {
+
+    $data = new DigestAuthData(
+        username: 'user',
+        password: 'pass',
+        realm: 'example.com',
+        algorithm: DigestAlgorithm::SHA256,
+    );
+
+    $header = (new DigestAuth($data))->generate();
+
+    expect($header)
+        ->toBe('username="user", realm="example.com", nonce="", uri="/", algorithm="SHA-256", response="fac676bef14a669c850f6ffae767bac065078ba21b84e232393d0cc2aa5bf1db"');
+});
+
+it('generates a SHA-256-sess digest auth string with minimal data', function (): void {
+
+    $data = new DigestAuthData(
+        username: 'user',
+        password: 'pass',
+        realm: 'example.com',
+        algorithm: DigestAlgorithm::SHA256_SESS,
+    );
+
+    $header = (new DigestAuth($data))->generate();
+
+    expect($header)
+        ->toBe('username="user", realm="example.com", nonce="", uri="/", algorithm="SHA-256-sess", response="ff77243f4b21afc072312b41cb1dda7a4b1a50a221b5af3167416965974300f6"');
+});
+
+/*
+|--------------------------------------------------------------------------
+| full data tests
+|--------------------------------------------------------------------------
+*/
+
+it('generates an MD5 digest auth string with full data', function (): void {
+
+    $data = new DigestAuthData(
+        username: 'user',
+        password: 'pass',
+        realm: 'example.com',
+        method: 'GET',
+        uri: '/path',
+        nonce: 'nonce123',
+        nc: '00000001',
+        cnonce: '0a4f113b',
+        qop: 'auth',
+        algorithm: DigestAlgorithm::MD5,
+        opaque: 'opaque123'
+    );
+
+    $header = (new DigestAuth($data))->generate();
+
+    expect($header)
+        ->toBe('username="user", realm="example.com", nonce="nonce123", uri="/path", algorithm="MD5", qop=auth, nc=00000001, cnonce="0a4f113b", response="95b1b30f94a1a47da30be528807d1293", opaque="opaque123"');
+});
+
+it('generates an MD5 digest auth string with empty body and auth QOP data integrity (auth-int)', function (): void {
+
+    $data = new DigestAuthData(
+        username: 'user',
+        password: 'pass',
+        realm: 'example.com',
+        method: 'POST',
+        uri: '/path',
+        nonce: 'nonce123',
+        nc: '00000001',
+        cnonce: '0a4f113b',
+        qop: 'auth-int',
+        algorithm: DigestAlgorithm::MD5,
+        opaque: 'opaque123',
+        entityBody: ''
+    );
+
+    $header = (new DigestAuth($data))->generate();
+
+    expect($header)
+        ->toBe('username="user", realm="example.com", nonce="nonce123", uri="/path", algorithm="MD5", qop=auth-int, nc=00000001, cnonce="0a4f113b", response="fe84a7c9c6b928542d96bd4930ed918a", opaque="opaque123"');
+});
+
+it('generates an MD5 digest auth string with body and auth QOP data integrity (auth-int)', function (): void {
+
+    $data = new DigestAuthData(
+        username: 'user',
+        password: 'pass',
+        realm: 'example.com',
+        method: 'POST',
+        uri: '/path',
+        nonce: 'nonce123',
+        nc: '00000001',
+        cnonce: '0a4f113b',
+        qop: 'auth-int',
+        algorithm: DigestAlgorithm::MD5,
+        opaque: 'opaque123',
+        entityBody: 'foo=bar'
+    );
+
+    $header = (new DigestAuth($data))->generate();
+
+    expect($header)
+        ->toBe('username="user", realm="example.com", nonce="nonce123", uri="/path", algorithm="MD5", qop=auth-int, nc=00000001, cnonce="0a4f113b", response="ea60fba829b499794a1203f158f0b3f5", opaque="opaque123"');
+});

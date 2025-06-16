@@ -6,6 +6,7 @@ namespace Chr15k\AuthGenerator;
 
 use Chr15k\AuthGenerator\Builders\BasicAuthBuilder;
 use Chr15k\AuthGenerator\Builders\BearerTokenBuilder;
+use Chr15k\AuthGenerator\Builders\DigestAuthBuilder;
 use Chr15k\AuthGenerator\Builders\JWTBuilder;
 
 /**
@@ -35,5 +36,13 @@ final class AuthGenerator
     public static function jwt(): JWTBuilder
     {
         return new JWTBuilder;
+    }
+
+    /**
+     * Create a digest authentication token builder.
+     */
+    public static function digestAuth(): DigestAuthBuilder
+    {
+        return new DigestAuthBuilder;
     }
 }

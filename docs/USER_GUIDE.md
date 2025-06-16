@@ -7,10 +7,11 @@ This guide provides a comprehensive overview of how to use the HTTP Auth Generat
 1. [Installation](#installation)
 2. [Basic Auth](#basic-auth)
 3. [Bearer Tokens](#bearer-tokens)
-4. [JWT (JSON Web Tokens)](#jwt-json-web-tokens)
-5. [HTTP Headers](#http-headers)
-6. [HTTP Client Integration](#http-client-integration)
-7. [Advanced Usage](#advanced-usage)
+4. [Digest Auth](#digest-auth)
+5. [JWT (JSON Web Tokens)](#jwt-json-web-tokens)
+6. [HTTP Headers](#http-headers)
+7. [HTTP Client Integration](#http-client-integration)
+8. [Advanced Usage](#advanced-usage)
 
 ## Installation
 
@@ -95,6 +96,86 @@ $header = AuthGenerator::bearerToken()
     ->prefix('api_')
     ->toHeader();
 // Output: "Bearer api_8f7d49b3c70e4..."
+```
+
+## Digest Auth
+
+Digest Authentication is an authentication mechanism that improves upon Basic Authentication by avoiding sending the password in plaintext over the network. It uses a challenge-response mechanism and MD5 cryptographic hashing.
+
+### Generating a Digest Auth Token
+
+```php
+use Chr15k\AuthGenerator\AuthGenerator;
+use Chr15k\AuthGenerator\Enums\DigestAlgorithm;
+
+// Generate a Digest Auth token
+$token = AuthGenerator::digestAuth()
+    ->username('user')
+    ->password('pass')
+    ->realm('example.com')
+    ->uri('/protected-resource')
+    ->method('GET')
+    ->algorithm(DigestAlgorithm::MD5)
+    ->toString();
+
+// Output: username="user", realm="example.com", nonce="1234abcd...", uri="/protected-resource", algorithm="MD5" response="a2fc57d9..."
+```
+
+### Working with Different Digest Algorithms
+
+```php
+// Using MD5 algorithm (default)
+$token = AuthGenerator::digestAuth()
+    ->username('user')
+    ->password('pass')
+    ->realm('example.com')
+    ->algorithm(DigestAlgorithm::MD5)
+    ->toString();
+
+// Using SHA-256 algorithm
+$token = AuthGenerator::digestAuth()
+    ->username('user')
+    ->password('pass')
+    ->realm('example.com')
+    ->algorithm(DigestAlgorithm::SHA256)
+    ->toString();
+
+// Using MD5 Session variant
+$token = AuthGenerator::digestAuth()
+    ->username('user')
+    ->password('pass')
+    ->realm('example.com')
+    ->algorithm(DigestAlgorithm::MD5_SESS)
+    ->toString();
+```
+
+### Additional Digest Auth Options
+
+```php
+$token = AuthGenerator::digestAuth()
+    ->username('user')
+    ->password('pass')
+    ->realm('example.com')
+    ->uri('/api/resource')
+    ->method('POST') // HTTP method
+    ->nonce('custom-nonce-value') // Custom server nonce
+    ->clientNonce('client-nonce') // Client nonce for session algorithms
+    ->nonceCount('00000001') // Nonce count
+    ->qop('auth') // Quality of protection
+    ->opaque('server-opaque-value') // Server opaque value
+    ->toString();
+```
+
+### Formatting for HTTP Headers
+
+```php
+// Format for use in the Authorization header
+$header = AuthGenerator::digestAuth()
+    ->username('user')
+    ->password('pass')
+    ->realm('example.com')
+    ->toHeader();
+// Output: "Digest username="user", realm="example.com", ..."
 ```
 
 ## JWT (JSON Web Tokens)
