@@ -144,6 +144,13 @@ $headers = AuthGenerator::jwt()
     ->claim('user_id', 123)
     ->toArray();
 
+// Digest Auth headers
+$headers = AuthGenerator::digestAuth()
+    ->username('user')
+    ->password('pass')
+    ->realm('example.com')
+    ->toArray();
+
 // Fluent formatting with toHeader() method
 $header = AuthGenerator::jwt()
     ->key('secret-key')
@@ -167,3 +174,14 @@ The following algorithms are supported for JWT tokens:
 | Algorithm::ES384 | ECDSA using P-384 curve and SHA-384 |
 | Algorithm::ES256K | ECDSA using secp256k1 curve and SHA-256 |
 | Algorithm::EdDSA | Edwards-curve Digital Signature Algorithm (EdDSA) |
+
+## Digest Auth Algorithms
+
+The following algorithms are supported for Digest Authentication:
+
+| Algorithm | Description |
+|-----------|-------------|
+| DigestAlgorithm::MD5 | MD5 algorithm (RFC 2617) |
+| DigestAlgorithm::MD5_SESS | MD5-sess variant with client nonce (RFC 2617) |
+| DigestAlgorithm::SHA256 | SHA-256 algorithm (RFC 7616) |
+| DigestAlgorithm::SHA256_SESS | SHA-256-sess variant with client nonce (RFC 7616) |

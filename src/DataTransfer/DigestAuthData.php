@@ -9,6 +9,16 @@ use SensitiveParameter;
 
 /**
  * @internal
+ *
+ * Data transfer object containing all the parameters needed for Digest Authentication.
+ *
+ * This class encapsulates all the components required to generate a Digest Auth token:
+ * - username and password for authentication
+ * - realm, nonce, and algorithm as provided by the server challenge
+ * - method and URI from the HTTP request
+ * - nc (nonce count), cnonce (client nonce), qop (quality of protection) for auth-int
+ * - opaque value as provided by the server
+ * - entityBody for auth-int quality of protection (optional)
  */
 final readonly class DigestAuthData
 {

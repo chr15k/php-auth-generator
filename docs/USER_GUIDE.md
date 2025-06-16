@@ -100,7 +100,14 @@ $header = AuthGenerator::bearerToken()
 
 ## Digest Auth
 
-Digest Authentication is an authentication mechanism that improves upon Basic Authentication by avoiding sending the password in plaintext over the network. It uses a challenge-response mechanism and MD5 cryptographic hashing.
+Digest Authentication is an authentication mechanism that improves upon Basic Authentication by avoiding sending the password in plaintext over the network. It uses a challenge-response mechanism and cryptographic hashing (MD5 or SHA-256).
+
+The Digest authentication process typically involves:
+1. A server challenge containing a nonce value
+2. A client response with a cryptographic hash that proves password knowledge without revealing it
+3. The response includes various components like realm, nonce, URI, and algorithm details
+
+This implementation provides a convenient way to generate properly formatted Digest Auth tokens for HTTP requests. It supports all RFC 2617 and RFC 7616 algorithm variants including MD5, MD5-sess, SHA-256, and SHA-256-sess.
 
 ### Generating a Digest Auth Token
 
@@ -327,7 +334,7 @@ $response = $client->request('GET', 'https://api.example.com/resources');
 use Chr15k\AuthGenerator\AuthGenerator;
 use Illuminate\Support\Facades\Http;
 
-// Make request with Laravel HTTP client
+// Make request with Laravel HTTP client and Bearer token
 $response = Http::withHeaders(
     AuthGenerator::bearerToken()
         ->length(48)
@@ -336,6 +343,19 @@ $response = Http::withHeaders(
             'Accept' => 'application/json',
         ])
 )->get('https://api.example.com/resources');
+
+// Using Digest Authentication
+$response = Http::withHeaders(
+    AuthGenerator::digestAuth()
+        ->username('api_user')
+        ->password('secure_password')
+        ->realm('api.example.com')
+        ->uri('/protected-resource')
+        ->method('GET')
+        ->toArray([
+            'Accept' => 'application/json',
+        ])
+)->get('https://api.example.com/protected-resource');
 ```
 
 ## Advanced Usage
@@ -344,8 +364,9 @@ If you need more control, you can access the underlying generator instance.
 
 ```php
 use Chr15k\AuthGenerator\AuthGenerator;
+use Chr15k\AuthGenerator\Enums\DigestAlgorithm;
 
-// Get the generator instance
+// Get the generator instance (Basic Auth example)
 $generator = AuthGenerator::basicAuth()
     ->username('user')
     ->password('pass')
@@ -353,6 +374,18 @@ $generator = AuthGenerator::basicAuth()
 
 // Now you can work directly with the generator
 $token = $generator->generate();
+
+// Advanced Digest Auth example
+$digestGenerator = AuthGenerator::digestAuth()
+    ->username('user')
+    ->password('pass')
+    ->realm('example.com')
+    ->uri('/api/resource')
+    ->algorithm(DigestAlgorithm::SHA256)
+    ->build();
+
+// Generate the digest token directly
+$digestToken = $digestGenerator->generate();
 ```
 
 

@@ -11,32 +11,76 @@ use Chr15k\AuthGenerator\Enums\DigestAlgorithm;
 use Chr15k\AuthGenerator\Generators\DigestAuth as DigestAuthGenerator;
 use SensitiveParameter;
 
+/**
+ * Builder for generating HTTP Digest Authentication tokens.
+ *
+ * Digest Authentication improves upon Basic Authentication by avoiding transmission
+ * of the password in plaintext. It uses a challenge-response mechanism and various
+ * cryptographic algorithms (MD5, SHA-256) including their session variants.
+ */
 final class DigestAuthBuilder implements Builder
 {
+    /**
+     * The username for authentication.
+     */
     private string $username = '';
 
+    /**
+     * The password for authentication.
+     */
     private string $password = '';
 
+    /**
+     * The algorithm used for digest calculation.
+     */
     private DigestAlgorithm $algorithm = DigestAlgorithm::MD5;
 
+    /**
+     * The authentication realm.
+     */
     private string $realm = '';
 
+    /**
+     * The HTTP method for the request.
+     */
     private string $method = 'GET';
 
+    /**
+     * The URI of the request.
+     */
     private string $uri = '/';
 
+    /**
+     * The server nonce value.
+     */
     private string $nonce = '';
 
+    /**
+     * The nonce count.
+     */
     private string $nc = '';
 
+    /**
+     * The client nonce value.
+     */
     private string $cnonce = '';
 
+    /**
+     * The quality of protection. Common values: 'auth', 'auth-int'.
+     */
     private string $qop = '';
 
+    /**
+     * The opaque server value.
+     */
     private string $opaque = '';
 
+    /**
+     * Initialize a new DigestAuthBuilder with random nonce values.
+     */
     public function __construct()
     {
+        // Generate secure random nonce values
         $this->nonce = bin2hex(random_bytes(16));
         $this->cnonce = bin2hex(random_bytes(8));
     }

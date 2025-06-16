@@ -11,6 +11,19 @@ use DomainException;
 
 /**
  * @internal
+ *
+ * Generates an HTTP Digest Authentication token based on provided data.
+ *
+ * This class implements the token generation process according to RFC 2617 and RFC 7616,
+ * supporting various digest algorithms (MD5, SHA-256) and their session variants.
+ *
+ * The Digest Authentication method improves security compared to Basic Auth by not
+ * sending the password over the network in plaintext. Instead, it uses a cryptographic
+ * hash of the username, password, realm, and other components to prove the client
+ * knows the credentials without revealing them.
+ *
+ * @see https://datatracker.ietf.org/doc/html/rfc2617 Original Digest Auth specification
+ * @see https://datatracker.ietf.org/doc/html/rfc7616 SHA-256 and other improvements
  */
 final readonly class DigestAuth implements Generator
 {
@@ -45,27 +58,27 @@ final readonly class DigestAuth implements Generator
 
     private function generateResponse(): string
     {
-        $func = $this->data->algorithm->func();
+        $hash = $this->data->algorithm->func();
 
-        $ha1 = $func(sprintf('%s:%s:%s', $this->data->username, $this->data->realm, $this->data->password));
+        $ha1 = $hash(sprintf('%s:%s:%s', $this->data->username, $this->data->realm, $this->data->password));
 
         if ($this->data->algorithm->isSessionVariant()) {
-            $ha1 = $func(sprintf('%s:%s:%s', $ha1, $this->data->nonce, $this->data->cnonce));
+            $ha1 = $hash(sprintf('%s:%s:%s', $ha1, $this->data->nonce, $this->data->cnonce));
         }
 
         if ($this->data->qop === 'auth-int') {
-            $ha2 = $func(sprintf(
+            $ha2 = $hash(sprintf(
                 '%s:%s:%s',
                 $this->data->method,
                 $this->data->uri,
-                $func($this->data->entityBody)
+                $hash($this->data->entityBody)
             ));
         } else {
-            $ha2 = $func(sprintf('%s:%s', $this->data->method, $this->data->uri));
+            $ha2 = $hash(sprintf('%s:%s', $this->data->method, $this->data->uri));
         }
 
         if ($this->data->qop !== '' && $this->data->qop !== '0') {
-            return $func(sprintf(
+            return $hash(sprintf(
                 '%s:%s:%s:%s:%s:%s',
                 $ha1,
                 $this->data->nonce,
@@ -76,6 +89,6 @@ final readonly class DigestAuth implements Generator
             ));
         }
 
-        return $func("{$ha1}:{$this->data->nonce}:{$ha2}");
+        return $hash("{$ha1}:{$this->data->nonce}:{$ha2}");
     }
 }
