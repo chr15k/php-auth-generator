@@ -45,39 +45,37 @@ final readonly class DigestAuth implements Generator
 
     private function generateResponse(): string
     {
-        $data = $this->data;
+        $closure = $this->data->algorithm->func();
 
-        $closure = $data->algorithm->hashFunctionClosure();
+        $ha1 = $closure(sprintf('%s:%s:%s', $this->data->username, $this->data->realm, $this->data->password));
 
-        $ha1 = $closure(sprintf('%s:%s:%s', $data->username, $data->realm, $data->password));
-
-        if ($data->algorithm->isSessionVariant()) {
-            $ha1 = $closure(sprintf('%s:%s:%s', $ha1, $data->nonce, $data->cnonce));
+        if ($this->data->algorithm->isSessionVariant()) {
+            $ha1 = $closure(sprintf('%s:%s:%s', $ha1, $this->data->nonce, $this->data->cnonce));
         }
 
-        if ($data->qop === 'auth-int') {
+        if ($this->data->qop === 'auth-int') {
             $ha2 = $closure(sprintf(
                 '%s:%s:%s',
-                $data->method,
-                $data->uri,
-                $closure($data->entityBody)
+                $this->data->method,
+                $this->data->uri,
+                $closure($this->data->entityBody)
             ));
         } else {
-            $ha2 = $closure(sprintf('%s:%s', $data->method, $data->uri));
+            $ha2 = $closure(sprintf('%s:%s', $this->data->method, $this->data->uri));
         }
 
-        if ($data->qop !== '' && $data->qop !== '0') {
+        if ($this->data->qop !== '' && $this->data->qop !== '0') {
             return $closure(sprintf(
                 '%s:%s:%s:%s:%s:%s',
                 $ha1,
-                $data->nonce,
-                $data->nc,
-                $data->cnonce,
-                $data->qop,
+                $this->data->nonce,
+                $this->data->nc,
+                $this->data->cnonce,
+                $this->data->qop,
                 $ha2
             ));
         }
 
-        return $closure("{$ha1}:{$data->nonce}:{$ha2}");
+        return $closure("{$ha1}:{$this->data->nonce}:{$ha2}");
     }
 }

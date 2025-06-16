@@ -20,7 +20,7 @@ enum Algorithm: string
     /**
      * @return array{func: string, alg: string}
      */
-    public function hashFunction(): array
+    public function config(): array
     {
         return match ($this) {
             self::ES384 => ['func' => 'openssl', 'alg' => 'SHA384'],

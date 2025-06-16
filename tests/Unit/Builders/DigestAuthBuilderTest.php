@@ -34,7 +34,7 @@ test('digest auth builder throws exception for empty username', function (): voi
     $builder->realm('testrealm')
         ->password('testpass');
 
-    expect(fn (): string => $builder->toString())->toThrow(DomainException::class, 'Username cannot be empty.');
+    expect(fn (): string => $builder->toString())->toThrow(DomainException::class, 'Both username and realm must be provided.');
 });
 
 test('digest auth builder toArray returns correct headers', function (): void {

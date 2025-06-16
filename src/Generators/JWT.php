@@ -116,7 +116,7 @@ final readonly class JWT implements Generator
      */
     private function createSignatureGenerator(): Closure
     {
-        ['func' => $func, 'alg' => $alg] = $this->data->algorithm->hashFunction();
+        ['func' => $func, 'alg' => $alg] = $this->data->algorithm->config();
 
         $key = $this->data->key;
 
