@@ -45,27 +45,27 @@ final readonly class DigestAuth implements Generator
 
     private function generateResponse(): string
     {
-        $closure = $this->data->algorithm->func();
+        $func = $this->data->algorithm->func();
 
-        $ha1 = $closure(sprintf('%s:%s:%s', $this->data->username, $this->data->realm, $this->data->password));
+        $ha1 = $func(sprintf('%s:%s:%s', $this->data->username, $this->data->realm, $this->data->password));
 
         if ($this->data->algorithm->isSessionVariant()) {
-            $ha1 = $closure(sprintf('%s:%s:%s', $ha1, $this->data->nonce, $this->data->cnonce));
+            $ha1 = $func(sprintf('%s:%s:%s', $ha1, $this->data->nonce, $this->data->cnonce));
         }
 
         if ($this->data->qop === 'auth-int') {
-            $ha2 = $closure(sprintf(
+            $ha2 = $func(sprintf(
                 '%s:%s:%s',
                 $this->data->method,
                 $this->data->uri,
-                $closure($this->data->entityBody)
+                $func($this->data->entityBody)
             ));
         } else {
-            $ha2 = $closure(sprintf('%s:%s', $this->data->method, $this->data->uri));
+            $ha2 = $func(sprintf('%s:%s', $this->data->method, $this->data->uri));
         }
 
         if ($this->data->qop !== '' && $this->data->qop !== '0') {
-            return $closure(sprintf(
+            return $func(sprintf(
                 '%s:%s:%s:%s:%s:%s',
                 $ha1,
                 $this->data->nonce,
@@ -76,6 +76,6 @@ final readonly class DigestAuth implements Generator
             ));
         }
 
-        return $closure("{$ha1}:{$this->data->nonce}:{$ha2}");
+        return $func("{$ha1}:{$this->data->nonce}:{$ha2}");
     }
 }
