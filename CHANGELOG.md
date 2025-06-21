@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [v0.1.3] - 2025-06-21
 
 ### Changed
-- Readme
+- Readme and main.yml updated
 
 ## [v0.1.2] - 2025-06-16
 
