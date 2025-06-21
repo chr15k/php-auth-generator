@@ -7,6 +7,8 @@
     <a href="https://packagist.org/packages/chr15k/php-auth-generator"><img alt="License" src="https://img.shields.io/packagist/l/chr15k/php-auth-generator"></a>
 </p>
 
+### 📦 Overview
+
 php-auth-generator is a lightweight PHP library for generating HTTP authentication headers with a clean, fluent API.
 
 Whether you're building API testing tools, CLI utilities, or custom HTTP clients, this package helps you programmatically generate authentication headers for:
@@ -18,11 +20,12 @@ Whether you're building API testing tools, CLI utilities, or custom HTTP clients
 
 Built with zero dependencies, it’s fast to install, easy to use, and doesn’t add unnecessary bloat to your project.
 
-✨ Why use it?
-- ✅ Fluent API for clean and expressive code
-- ✅ No dependencies — pure PHP
-- ✅ Supports multiple auth types
-- ✅ Ideal for CLI tools, HTTP testing, and automation
+### ✨ Features
+
+- ✅ Fluent, chainable API for building authentication headers effortlessly
+- ✅ Lightweight and dependency-free PHP library
+- ✅ Supports Basic Auth, Bearer tokens, Digest Auth, and JWT generation
+- ✅ Easily integrates into CLI tools, HTTP clients, API testing, and automation workflows
 
 > [!IMPORTANT]
 > This package is designed solely for **generating** authentication tokens. It does not include any token decoding, validation, or verification functionality.
