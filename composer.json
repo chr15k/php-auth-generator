@@ -1,6 +1,6 @@
 {
     "name": "chr15k/php-auth-generator",
-    "description": "Generate authentication tokens",
+    "description": "Generate HTTP authentication headers in PHP (Basic, Bearer, Digest, JWT) with a fluent, zero-dependency API.",
     "type": "library",
     "license": "MIT",
     "authors": [
