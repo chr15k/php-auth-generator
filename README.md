@@ -1,8 +1,28 @@
 # PHP Auth Generator
 
-[![Latest Stable Version](https://poser.pugx.org/chr15k/php-auth-generator/v)](https://packagist.org/packages/chr15k/php-auth-generator) [![Total Downloads](https://poser.pugx.org/chr15k/php-auth-generator/downloads)](https://packagist.org/packages/chr15k/php-auth-generator) [![Latest Unstable Version](https://poser.pugx.org/chr15k/php-auth-generator/v/unstable)](https://packagist.org/packages/chr15k/php-auth-generator) [![License](https://poser.pugx.org/chr15k/php-auth-generator/license)](https://packagist.org/packages/chr15k/php-auth-generator) [![PHP Version Require](https://poser.pugx.org/chr15k/php-auth-generator/require/php)](https://packagist.org/packages/chr15k/php-auth-generator)
+<p>
+    <a href="https://github.com/chr15k/php-auth-generator/actions"><img alt="GitHub Workflow Status (main)" src="https://img.shields.io/github/actions/workflow/status/chr15k/php-auth-generator/main.yml"></a>
+    <a href="https://packagist.org/packages/chr15k/php-auth-generator"><img alt="Total Downloads" src="https://img.shields.io/packagist/dt/chr15k/php-auth-generator"></a>
+    <a href="https://packagist.org/packages/chr15k/php-auth-generator"><img alt="Latest Version" src="https://img.shields.io/packagist/v/chr15k/php-auth-generator"></a>
+    <a href="https://packagist.org/packages/chr15k/php-auth-generator"><img alt="License" src="https://img.shields.io/packagist/l/chr15k/php-auth-generator"></a>
+</p>
 
-A PHP library that focuses exclusively on **generating** HTTP authentication tokens, including Basic Auth, Bearer tokens, Digest Auth, and JWTs with a fluent API. Built with zero dependencies, it's lightweight and adds token creation capabilities without bloating your project.
+php-auth-generator is a lightweight PHP library for generating HTTP authentication headers with a clean, fluent API.
+
+Whether you're building API testing tools, CLI utilities, or custom HTTP clients, this package helps you programmatically generate authentication headers for:
+
+- 🔐 Basic Auth
+- 🪪 Bearer Tokens
+- 🔄 Digest Auth
+- 🔏 JWTs
+
+Built with zero dependencies, it’s fast to install, easy to use, and doesn’t add unnecessary bloat to your project.
+
+✨ Why use it?
+- ✅ Fluent API for clean and expressive code
+- ✅ No dependencies — pure PHP
+- ✅ Supports multiple auth types
+- ✅ Ideal for CLI tools, HTTP testing, and automation
 
 > [!IMPORTANT]
 > This package is designed solely for **generating** authentication tokens. It does not include any token decoding, validation, or verification functionality.
