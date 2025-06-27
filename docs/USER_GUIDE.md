@@ -234,32 +234,87 @@ $token = AuthGenerator::jwt()
     ->toString();
 ```
 
-### Supported Algorithms
+### Working with Complex Data
 
-The library supports various algorithms for JWT signing:
+JWT claims can contain complex nested data structures:
 
 ```php
-use Chr15k\AuthGenerator\Enums\Algorithm;
-
-// HMAC algorithms
-$token = AuthGenerator::jwt()->algorithm(Algorithm::HS256)->toString(); // HMAC with SHA-256
-$token = AuthGenerator::jwt()->algorithm(Algorithm::HS384)->toString(); // HMAC with SHA-384
-$token = AuthGenerator::jwt()->algorithm(Algorithm::HS512)->toString(); // HMAC with SHA-512
-
-// RSA algorithms
-$token = AuthGenerator::jwt()->algorithm(Algorithm::RS256)->toString(); // RSA with SHA-256
-$token = AuthGenerator::jwt()->algorithm(Algorithm::RS384)->toString(); // RSA with SHA-384
-$token = AuthGenerator::jwt()->algorithm(Algorithm::RS512)->toString(); // RSA with SHA-512
-
-// ECDSA algorithms
-$token = AuthGenerator::jwt()->algorithm(Algorithm::ES256)->toString(); // ECDSA with P-256 and SHA-256
-$token = AuthGenerator::jwt()->algorithm(Algorithm::ES384)->toString(); // ECDSA with P-384 and SHA-384
-$token = AuthGenerator::jwt()->algorithm(Algorithm::ES256K)->toString(); // ECDSA with secp256k1 and SHA-256
-
-// Edwards-curve Digital Signature Algorithm
-$token = AuthGenerator::jwt()->algorithm(Algorithm::EdDSA)->toString(); // EdDSA
+$token = AuthGenerator::jwt()
+    ->key('secret-key')
+    ->claim('user', [
+        'id' => 123,
+        'name' => 'John Doe',
+        'roles' => ['admin', 'user'],
+        'permissions' => [
+            'read' => true,
+            'write' => true,
+            'admin' => ['users', 'settings']
+        ]
+    ])
+    ->claim('metadata', [
+        'ip' => '192.168.1.1',
+        'device' => 'mobile',
+        'location' => ['city' => 'New York', 'country' => 'US']
+    ])
+    ->toString();
 ```
 
+### Data Type Rules
+
+The library enforces different validation rules for headers vs claims:
+
+**Headers** - Must be scalar values (strings, numbers, booleans):
+```php
+$jwt->header('kid', 'key-123');      // ✅ String
+$jwt->header('version', 1);          // ✅ Integer
+$jwt->header('debug', true);         // ✅ Boolean
+$jwt->header('invalid', []);         // ❌ Arrays not allowed
+$jwt->header('optional', null);      // ℹ️ Null values are ignored
+```
+
+**Claims** - Can be any JSON-serializable data:
+```php
+$jwt->claim('simple', 123);          // ✅ Scalar values
+$jwt->claim('array', [1, 2, 3]);     // ✅ Arrays
+$jwt->claim('nested', ['a' => ['b' => 'c']]); // ✅ Nested structures
+$jwt->claim('invalid', fopen('file', 'r'));   // ❌ Resources not allowed
+```
+
+### Validation Alignment with RFC Standards
+
+The library's validation rules are designed to ensure compliance with JWT standards:
+
+**RFC 7515 (JSON Web Signature) - Headers:**
+- Headers contain algorithm parameters and metadata for token processing
+- Values should be simple strings or numbers for interoperability
+- Complex data structures in headers can cause compatibility issues with other JWT libraries
+- Our validation enforces scalar types (strings, numbers, booleans) to maintain standard compliance
+
+**RFC 7519 (JSON Web Token) - Claims:**
+- Claims are designed to convey assertions about an entity (typically the user)
+- The payload can contain any valid JSON data structure
+- Standard claims like `iss`, `sub`, `aud` can be strings or arrays
+- Custom claims can be any JSON-serializable data to support application-specific requirements
+- Our validation allows complex data structures while preventing non-serializable types
+
+**Example of RFC-compliant usage:**
+```php
+$jwt = AuthGenerator::jwt()
+    ->key('secret-key')
+    // RFC 7519 standard claims
+    ->claim('iss', 'https://myapp.com')           // Issuer (string)
+    ->claim('sub', 'user-123')                    // Subject (string)
+    ->claim('aud', ['api', 'mobile'])             // Audience (string or array)
+    ->claim('exp', time() + 3600)                 // Expiration (number)
+    ->claim('iat', time())                        // Issued at (number)
+    // Custom claims with complex data (RFC compliant)
+    ->claim('permissions', ['read', 'write'])     // Array
+    ->claim('profile', ['name' => 'John'])        // Object
+    // RFC 7515 compliant headers
+    ->header('kid', 'key-id-123')                 // Key ID (string)
+    ->header('typ', 'JWT')                        // Type (string)
+    ->toString();
+```
 ## HTTP Headers
 
 The library provides helper methods to format tokens for use in HTTP headers.

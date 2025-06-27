@@ -185,3 +185,63 @@ The following algorithms are supported for Digest Authentication:
 | DigestAlgorithm::MD5_SESS | MD5-sess variant with client nonce (RFC 2617) |
 | DigestAlgorithm::SHA256 | SHA-256 algorithm (RFC 7616) |
 | DigestAlgorithm::SHA256_SESS | SHA-256-sess variant with client nonce (RFC 7616) |
+
+## JWT Validation Rules
+
+### Headers
+JWT headers must contain simple scalar values (strings, numbers, booleans):
+
+```php
+// ✅ Valid header values
+$jwt->header('kid', 'key-123');           // string
+$jwt->header('version', 1);               // integer
+$jwt->header('debug', true);              // boolean
+$jwt->header('rate', 1.5);                // float
+
+// ❌ Invalid header values (will throw InvalidArgumentException)
+$jwt->header('metadata', ['key' => 'value']);  // array not allowed
+$jwt->header('config', new stdClass());        // object not allowed
+
+// ℹ️ Null values are ignored (header won't be added)
+$jwt->header('optional', null);           // No error, but header is skipped
+```
+
+### Claims (Payload)
+JWT claims can contain complex data structures as long as they're JSON serializable:
+
+```php
+// ✅ Valid claim values
+$jwt->claim('user_id', 123);                    // scalar values
+$jwt->claim('roles', ['admin', 'user']);        // arrays
+$jwt->claim('profile', [                        // nested objects
+    'name' => 'John Doe',
+    'settings' => ['theme' => 'dark']
+]);
+$jwt->claim('permissions', [
+    'read' => true,
+    'write' => false,
+    'admin' => ['users', 'settings']
+]);
+
+// ❌ Invalid claim values (will throw InvalidArgumentException)
+$jwt->claim('resource', fopen('file.txt', 'r')); // resources not allowed
+$jwt->claim('callback', function() {});          // closures not allowed
+```
+
+## RFC Compliance
+
+The validation rules ensure compliance with JWT standards:
+
+- **Headers (RFC 7515)**: Scalar values only - ensures interoperability
+- **Claims (RFC 7519)**: Any JSON data - supports standard and custom claims
+- **Standard claims**: `iss`, `sub`, `aud`, `exp`, `iat`, `nbf`, `jti` are properly handled
+
+```php
+// RFC-compliant JWT
+$jwt = AuthGenerator::jwt()
+    ->claim('iss', 'https://app.com')     // Standard issuer claim
+    ->claim('aud', ['api', 'web'])        // Audience can be array (RFC 7519)
+    ->claim('custom', ['data' => 'ok'])   // Custom claims support objects
+    ->header('kid', 'key-1')              // Header values are strings
+    ->toString();
+```
