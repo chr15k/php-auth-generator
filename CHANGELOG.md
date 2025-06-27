@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [v0.2.0] - 2025-06-27
+
+### Changed
+- Enhanced JWT header validation to enforce scalar types only (strings, numbers, booleans) for RFC 7515 compliance
+- Improved JWT claim validation with better error messages for non-JSON-serializable data
+- Updated null header handling - null values are now explicitly ignored rather than converted to empty strings
+- Enhanced documentation with comprehensive JWT validation rules and RFC compliance guidelines
+- Added detailed explanations of data type requirements for JWT headers vs claims
+
 ## [v0.1.3] - 2025-06-21
 
 ### Changed
