@@ -705,3 +705,37 @@ it('tests the generateSignatureFromDER method via reflection', function (): void
     expect($result)->toBe($expectedR.$expectedS);
     expect(strlen((string) $result))->toBe(64); // 32 bytes for r + 32 bytes for s
 });
+
+it('handles nested claims in payload', function (): void {
+
+    $secret = 'nested-secret-key';
+    $payload = [
+        'iss' => 'example.org',
+        'aud' => 'example.com',
+        'iat' => 1356999524,
+        'nested' => [
+            'sub' => 'user123',
+            'roles' => ['admin', 'user'],
+        ],
+    ];
+
+    $data = new JWTData(
+        key: $secret,
+        payload: $payload,
+        algorithm: Algorithm::HS256,
+    );
+
+    $output = (new JWT($data))->generate();
+    $parts = explode('.', $output);
+    // Test that we have three parts
+    expect(count($parts))->toBe(3);
+    // Base64 decode the header and check algorithm
+    $header = json_decode(base64_decode(strtr($parts[0], '-_', '+/')), true);
+    expect($header['alg'])->toBe('HS256');
+    // Base64 decode the payload and check it matches what we passed in
+    $decodedPayload = json_decode(base64_decode(strtr($parts[1], '-_', '+/')), true);
+    expect($decodedPayload)->toBe($payload);
+    // Check nested claims
+    expect($decodedPayload['nested']['sub'])->toBe('user123');
+    expect($decodedPayload['nested']['roles'])->toBe(['admin', 'user']);
+});
