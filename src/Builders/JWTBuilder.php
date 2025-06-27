@@ -9,7 +9,7 @@ use Chr15k\AuthGenerator\Contracts\Generator;
 use Chr15k\AuthGenerator\DataTransfer\JWTData;
 use Chr15k\AuthGenerator\Enums\Algorithm;
 use Chr15k\AuthGenerator\Generators\JWT as JWTGenerator;
-use Chr15k\AuthGenerator\Utils\Type;
+use Chr15k\AuthGenerator\Utils\JWTUtil;
 use InvalidArgumentException;
 use SensitiveParameter;
 
@@ -70,7 +70,7 @@ final class JWTBuilder implements Builder
      */
     public function claim(string $name, mixed $value): self
     {
-        if (! Type::isJsonSerializable($value)) {
+        if (! JWTUtil::validateClaim($value)) {
             throw new InvalidArgumentException("Claim '{$name}' contains non-serializable data");
         }
 
@@ -102,7 +102,7 @@ final class JWTBuilder implements Builder
             return $this;
         }
 
-        $this->headers[$name] = Type::stringifyHeaderValue($value);
+        $this->headers[$name] = JWTUtil::stringifyHeaderValue($value);
 
         return $this;
     }
